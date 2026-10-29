@@ -140,7 +140,7 @@ textarea{width:100%;box-sizing:border-box;font:15px/1.7 var(--font);color:var(--
   <section class="result" aria-labelledby="h-res">
     <h2 id="h-res">완성된 리뷰</h2>
     <div class="meter" id="meter" aria-label="리뷰에 들어간 정보"></div>
-    <textarea id="out" rows="6" aria-label="완성된 리뷰 (고칠 수 있어요)"></textarea>
+    <textarea id="out" rows="9" aria-label="완성된 리뷰 (고칠 수 있어요)"></textarea>
     <div class="row">
       <button class="btn primary" id="copy" type="button">리뷰 복사하기</button>
       <button class="btn ghost" id="shuffle" type="button">다른 문장으로</button>
@@ -165,62 +165,85 @@ const LINKS = {
 };
 
 const SUBJECTS = [
-  {id:"webtoon",name:"웹툰",fb:"그린 걸",
-   goalL:["웹툰 작가 데뷔","웹툰 스튜디오 취업","공모전 준비","입시","취미로 그리기"],
-   goal:["웹툰 작가 데뷔를 준비하","웹툰 스튜디오 취업을 준비하","공모전을 준비하","입시를 준비하","취미로 그림을 그리"],
-   done:["원고 제작","캐릭터 설정화","1화 이상 제작"]},
-  {id:"webnovel",name:"웹소설",fb:"쓴 글을",
-   goalL:["웹소설 연재","공모전 준비","입시","취미로 쓰기"],
-   goal:["웹소설 연재를 준비하","공모전을 준비하","입시를 준비하","취미로 글을 쓰"],
-   done:["시놉시스·플롯 작성","1화 원고","공모전 준비"]},
-  {id:"artwork",name:"아트웍",fb:"그린 걸",
-   goalL:["그림 기초 다지기","캐릭터 일러스트","디지털드로잉","이모티콘"],
-   goal:["그림 기초를 다지","캐릭터 일러스트를 그리","디지털 드로잉을 배우","이모티콘을 만들"],
-   done:["기초 드로잉","캐릭터 일러스트","채색·명암"]},
   {id:"original",name:"게임원화",fb:"그린 걸",
-   goalL:["원화가 취업","캐릭터 원화","포트폴리오 만들기","입시"],
-   goal:["게임 원화가 취업을 준비하","캐릭터 원화를 그리","포트폴리오를 만들","입시를 준비하"],
-   done:["기초 일러스트","캐릭터 시트","포트폴리오 준비"]},
+   goalL:["원화가 취업","캐릭터 원화","배경 원화","포트폴리오 만들기","일러스트 실력 키우기","입시"],
+   goal:["게임 원화가 취업을 준비하","캐릭터 원화를 그리","배경 원화를 배우","포트폴리오를 만들","일러스트 실력을 키우","입시를 준비하"],
+   done:["기초 드로잉","인체 드로잉","캐릭터 시트","배경 원화","포토샵 채색","포트폴리오 준비"]},
   {id:"graphic",name:"게임그래픽",fb:"작업한 걸",
-   goalL:["3D 모델링 배우기","그래픽 취업","포트폴리오 만들기","입시"],
-   goal:["3D 모델링을 배우","게임 그래픽 취업을 준비하","포트폴리오를 만들","입시를 준비하"],
-   done:["3D 캐릭터 모델링","3D 배경 모델링","3D 이펙트","3D 애니메이션"]},
+   goalL:["3D 모델링 배우기","캐릭터 모델러","배경 모델러","그래픽 취업","포트폴리오 만들기","입시"],
+   goal:["3D 모델링을 배우","캐릭터 모델러를 준비하","배경 모델러를 준비하","게임 그래픽 취업을 준비하","포트폴리오를 만들","입시를 준비하"],
+   done:["3D 캐릭터 모델링","3D 배경 모델링","텍스처 작업","3D 이펙트","3D 애니메이션","포트폴리오 준비"]},
   {id:"planning",name:"게임기획",fb:"작업한 걸",
-   goalL:["기획자 취업","입시","기획 포트폴리오"],
-   goal:["게임 기획자 취업을 준비하","입시를 준비하","기획 포트폴리오를 만들"],
-   done:["초안 기획서","기획서 작성","취업 준비"]},
+   goalL:["기획자 취업","시스템 기획 배우기","레벨 디자인 배우기","기획 포트폴리오","입시"],
+   goal:["게임 기획자 취업을 준비하","시스템 기획을 배우","레벨 디자인을 배우","기획 포트폴리오를 만들","입시를 준비하"],
+   done:["초안 기획서","게임 분석","시스템 기획서","레벨 디자인","기획서 발표","취업 준비"]},
   {id:"programming",name:"게임프로그래밍",fb:"만든 걸",
-   goalL:["유니티로 게임 만들기","언리얼로 게임 만들기","게임 회사 취업","입시"],
-   goal:["유니티로 게임을 만들","언리얼로 게임을 만들","게임 회사 취업을 준비하","입시를 준비하"],
-   done:["C언어 기초","C# 기초","C++ 기초","유니티로 2D 게임 만들기","언리얼로 3D 게임 만들기"]},
+   goalL:["코딩 기초부터","유니티로 게임 만들기","언리얼로 게임 만들기","게임 회사 취업","입시"],
+   goal:["코딩을 기초부터 배우","유니티로 게임을 만들","언리얼로 게임을 만들","게임 회사 취업을 준비하","입시를 준비하"],
+   done:["C언어 기초","C# 기초","C++ 기초","유니티 2D 게임 제작","유니티 3D 게임 제작","언리얼 3D 게임 제작","포트폴리오 게임"]},
   {id:"qa",name:"게임QA",fb:"작업한 걸",qa:true,
-   goalL:["QA 취업","입시","비전공 취업 준비"],
-   goal:["QA 취업을 준비하","입시를 준비하","비전공으로 취업을 준비하"],
-   done:["테스트 케이스 작성","버그 리포트 작성","취업 준비"]}
+   goalL:["QA 취업","비전공 취업 준비","기업연계반","입시"],
+   goal:["QA 취업을 준비하","비전공으로 취업을 준비하","기업연계반에 들어가","입시를 준비하"],
+   done:["게임 테스트 실습","테스트 케이스 작성","버그 리포트 작성","기업연계반 준비","취업 준비"]},
+  {id:"webtoon",name:"웹툰",fb:"그린 걸",
+   goalL:["웹툰 작가 데뷔","웹툰 스튜디오 취업","공모전 준비","콘티·스토리 배우기","디지털 작화 배우기","캐릭터 그리기","취미로 그리기","입시"],
+   goal:["웹툰 작가 데뷔를 준비하","웹툰 스튜디오 취업을 준비하","공모전을 준비하","콘티랑 스토리 짜는 법을 배우","디지털 작화를 배우","캐릭터를 잘 그리","취미로 그림을 그리","입시를 준비하"],
+   done:["인체 드로잉","캐릭터 설정화","콘티 작성","클립스튜디오 작화","채색·명암","원고 제작","1화 이상 제작"]},
+  {id:"webnovel",name:"웹소설",fb:"쓴 글을",
+   goalL:["웹소설 연재","플랫폼 투고","공모전 준비","스토리 짜는 법","취미로 쓰기","입시"],
+   goal:["웹소설 연재를 준비하","플랫폼 투고를 준비하","공모전을 준비하","스토리 짜는 법을 배우","취미로 글을 쓰","입시를 준비하"],
+   done:["캐릭터 설정","시놉시스 작성","플롯 짜기","1화 원고","연재 원고","공모전 준비"]}
 ];
 const SUBJECT_ORDER = ["original","graphic","planning","programming","qa","webtoon","webnovel"];
 for (let i=SUBJECTS.length-1;i>=0;i--) if(!SUBJECT_ORDER.includes(SUBJECTS[i].id)) SUBJECTS.splice(i,1);
 SUBJECTS.sort((a,b)=>SUBJECT_ORDER.indexOf(a.id)-SUBJECT_ORDER.indexOf(b.id));
 const STATES = [{id:"new",label:"방금 등록했어요"},{id:"study",label:"수업 듣고 있어요"}];
 const PERIODS = [
-  {id:"1",label:"1 ~ 6개월",now:"다닌 지 몇 달 된",ago:"몇 달 전만 해도"},
-  {id:"6",label:"6개월 ~ 1년",now:"6개월 넘게 다닌",ago:"6개월 전만 해도"},
-  {id:"12",label:"1년 이상",now:"1년 넘게 다닌",ago:"1년 전만 해도"}
+  {id:"1",label:"1 ~ 6개월",s:["다닌 지 [몇 달|몇 개월] [됐어요|지났어요|정도 됐어요].","[몇 달째|몇 개월째] 다니고 있어요.","등록하고 [몇 달|몇 개월] [지났어요|됐어요].","[아직 |]다닌 지 [몇 달|얼마] 안 됐어요."]},
+  {id:"6",label:"6개월 ~ 1년",s:["다닌 지 6개월 [넘었어요|좀 넘었어요|조금 넘었어요].","반년 넘게 다니고 있어요.","6개월 넘게 [다니는 중이에요|다녔어요].","[벌써 |]반년이 [넘었네요|지났어요]."]},
+  {id:"12",label:"1년 이상",s:["1년 넘게 [다니고 있어요|다녔어요].","다닌 지 1년이 [넘었어요|훌쩍 넘었어요].","[벌써 |어느새 ]1년 넘게 다녔어요.","[여기서 |]1년 넘게 배우고 있어요."]}
 ];
-const LEVELS = [{id:"zero",label:"완전 처음"},{id:"self",label:"독학하다 막힘"},{id:"exp",label:"전공·경험 있음"}];
+const LEVELS = [
+  {id:"zero",label:"완전 처음",
+   s:["[솔직히 |사실 |원래 |상담 전까지만 해도 |]{N은} [완전|아예|진짜] 처음이었어요.","[솔직히 |사실 |]{N을} [한 번도|제대로 한 번도] [안 해봤어요|해본 적이 없었어요].","{N} 쪽은 [아무것도 모르는|정말 하나도 모르는|기초도 없는] 상태였어요.","[완전 |]생초보[로 시작했어요|였어요]."],
+   c:["{N은} [완전|아예|진짜] 처음이라 [고민했는데|많이 망설였는데|걱정이 많았는데|생각을 좀 해봤는데|겁도 좀 났는데|할 수 있을까 싶었는데], ","[아무것도 모르는 상태로|기초도 없이|완전 빈손으로] 상담 [갔는데|받았는데|와봤는데], ","{N을} 한 번도 [안 해봐서|해본 적이 없어서] [고민했는데|망설였는데|걱정했는데], "]},
+  {id:"hobby",label:"취미로만 해봄",
+   s:["{N은} [취미로 조금 해본 게 전부였어요|그냥 취미로만 해봤어요|가끔 취미로 해본 정도였어요].","예전에 취미로 {N을} [잠깐|조금|가볍게] 해봤어요."],
+   c:["취미로만 {N을} [해봤었는데|하던 정도였는데], ","{N은} 취미 [수준이었는데|정도였는데], ","취미로 하던 {N을} [제대로 해보고 싶어서 알아봤는데|좀 더 제대로 해보려고 상담받았는데], "]},
+  {id:"self",label:"독학하다 막힘",
+   s:["[혼자 |]{N을} 독학하다가 [막혔어요|한계가 왔어요|벽에 부딪혔어요].","독학으로 하다 보니 [어디서부터 해야 할지 모르겠더라고요|뭐가 문제인지 모르겠더라고요|진도가 안 나가더라고요]."],
+   c:["독학하다가 [막혀서|한계가 와서|혼자는 안 되겠다 싶어서] [상담받았는데|찾아왔는데|알아봤는데], ","혼자 {N을} 하다가 [한계가 느껴져서|막막해서] [찾아왔는데|상담받았는데], "]},
+  {id:"major",label:"비전공자",
+   s:["[저는 |]비전공자[예요|라서 걱정이 많았어요].","전공이 {N랑} [전혀|완전] [상관없어요|관련 없어요].","전공은 [완전 |아예 |]다른 [거였어요|분야예요]."],
+   c:["비전공이라 [걱정했는데|고민이 많았는데|따라갈 수 있을지 걱정했는데], ","전공이 [완전|아예] 달라서 [고민했는데|망설였는데], "]},
+  {id:"exp",label:"전공·경험 있음",
+   s:["{N} 쪽 경험이 [조금|약간] [있었어요|있는 편이에요].","{N을} 조금 배워본 적은 있어요.","[기초는|기본은] 조금 알고 있었어요."],
+   c:["{N} 경험이 조금 있는 상태에서 ","[기초는|기본은] [조금 알고 있었는데|좀 있었는데], "]},
+  {id:"career",label:"직장 다니다 진로 변경",
+   s:["직장 다니다가 진로를 [바꾸려고|바꿔보려고] [알아봤어요|찾아봤어요].","회사 다니면서 {N} 쪽으로 [진로를 고민했어요|넘어가고 싶었어요]."],
+   c:["직장 다니다가 진로를 바꾸고 싶어서 [알아봤는데|찾아왔는데], ","회사 다니면서 [고민만 하다가|계속 미루다가] "]}
+];
 const GOOD_NEW = [
-  {id:"mentor",label:"멘토님이 자세히 설명해줌",s:["상담에서 멘토님이 자세히 설명해주셨어요","멘토님이 상담 때 하나씩 자세히 설명해주셨어요"]},
-  {id:"fit",label:"내 수준에 맞는 과정 추천",s:["제 수준에 맞는 과정을 추천받았어요","제 수준에 맞춰 과정을 추천해주셨어요"]},
-  {id:"easy",label:"부담 없이 편한 상담",s:["부담 없이 편하게 상담받을 수 있었어요","상담이 부담스럽지 않고 편했어요"]},
-  {id:"job",label:"취업 방향까지 안내",s:["취업 방향까지 안내받았어요","취업 방향까지 같이 안내해주셨어요"]},
-  {id:"exam",label:"입시 방향까지 안내",s:["입시 방향까지 안내받았어요","입시 방향까지 같이 안내해주셨어요"]}
+  {id:"mentor",label:"멘토님이 자세히 설명해줌",s:["[상담에서 |상담 때 |]멘토님이 [하나하나|꼼꼼하게|엄청 자세히|차근차근] [설명해주셨어요|알려주셨어요]","[궁금한 걸|모르는 걸] [다 |하나하나 |]설명해주셔서 [이해가 잘 됐어요|감이 왔어요|도움이 많이 됐어요]"]},
+  {id:"fit",label:"내 수준에 맞는 과정 추천",s:["제 수준에 [맞는 과정을|맞춰서 들을 수업을] [추천받았어요|추천해주셨어요|골라주셨어요]","[무작정|무조건] 다 들으라는 게 아니라 제 수준에 [맞게|맞춰서] [추천해주셨어요|정리해주셨어요]","지금 실력에서 [어디부터|뭐부터] 시작하면 되는지 [알려주셨어요|정해주셨어요]"]},
+  {id:"curri",label:"커리큘럼을 구체적으로 보여줌",s:["커리큘럼을 [구체적으로|자세하게] 보여주셔서 [뭘 배우는지|어떻게 배우는지] [알 수 있었어요|감이 잡혔어요]","[어떤 순서로|뭘 어떤 순서로] 배우는지 [커리큘럼 보면서|자료 보면서] [설명 들었어요|설명해주셨어요]"]},
+  {id:"easy",label:"부담 없이 편한 상담",s:["[상담이|상담 분위기가] [편해서|부드러워서] [부담이 없었어요|긴장이 풀렸어요]","[등록하라고|억지로] [부담 주는 느낌이 없어서|밀어붙이는 느낌이 없어서] 좋았어요"]},
+  {id:"qna",label:"질문을 편하게 받아줌",s:["[이것저것|이것저것 많이] 물어봐도 [편하게|친절하게] [답해주셨어요|받아주셨어요]","[사소한|별거 아닌] 질문도 [편하게|웃으면서] 받아주셨어요"]},
+  {id:"sched",label:"일정 조율을 맞춰줌",s:["제 [일정에|스케줄에] 맞게 수업 시간을 [조율해주셨어요|맞춰주셨어요]","[시간표|일정] 맞추는 것도 [최대한|편하게] [도와주셨어요|맞춰주셨어요]"]},
+  {id:"job",label:"취업 방향까지 안내",s:["취업 방향까지 [안내받았어요|같이 얘기해주셨어요]","나중에 [취업까지 어떻게 가는지|취업은 어떻게 준비하는지] [같이 얘기해주셨어요|알려주셨어요]"]},
+  {id:"exam",label:"입시 방향까지 안내",s:["입시 방향까지 [안내받았어요|잡아주셨어요]","입시를 [어떻게 준비하면 되는지|일정에 맞춰서 어떻게 할지] [알려주셨어요|같이 정리해주셨어요]"]},
+  {id:"place",label:"시설이 깔끔함",s:["[학원 |]시설[도|이] [깔끔했어요|생각보다 깔끔하고 좋았어요|깨끗했어요]","강의실이 [깨끗해서|깔끔해서] [좋았어요|맘에 들었어요]"]}
 ];
 const GOOD_STUDY = [
-  {id:"fb",label:"1:1 피드백",s:["{fb} 1:1로 피드백 받을 수 있는 게 좋았어요","{fb} 바로바로 1:1 피드백 받을 수 있어서 좋아요"]},
-  {id:"fit",label:"수준별 맞춤 시작",s:["제 수준에 맞춰서 시작할 수 있었던 게 좋았어요","처음부터 제 수준에 맞춰 시작할 수 있어서 좋았어요"]},
-  {id:"pro",label:"현업 출신 강사님",s:["현업 출신 강사님께 배울 수 있어서 좋아요","현업 출신 강사님한테 배우는 게 좋아요"]},
-  {id:"mentor",label:"멘토님이 꾸준히 챙겨줌",s:["멘토님이 꾸준히 챙겨주세요","멘토님이 계속 신경 써서 챙겨주세요"]},
-  {id:"grow",label:"실력이 늘어가고 있음",s:["실력이 늘어가는 게 느껴져요","실력이 조금씩 늘고 있어요"]}
+  {id:"fb",label:"1:1 피드백",s:["{fb} [1:1로|하나하나|바로바로] [피드백 받을 수 있는 게|봐주시는 게] [좋아요|제일 도움 돼요|진짜 커요]","[수업 때마다|매번] {fb} [직접|바로] 봐주셔서 [도움이 많이 돼요|좋아요]"]},
+  {id:"fit",label:"수준별 맞춤 시작",s:["제 수준에 맞춰서 [시작할 수 있었어요|시작해서 따라가기 괜찮았어요]","[처음부터|첫 수업부터] 수준에 맞춰 시작하니까 [부담이 덜했어요|따라갈 만했어요]"]},
+  {id:"pro",label:"현업 출신 강사님",s:["[현업 출신|현업에 계셨던] 강사님[께 배울 수 있어서|이라] [좋아요|배울 게 많아요]","강사님이 [실무|현업] 얘기를 많이 해주셔서 [도움 돼요|좋아요]"]},
+  {id:"mentor",label:"멘토님이 꾸준히 챙겨줌",s:["멘토님이 [꾸준히|계속|중간중간] [챙겨주세요|신경 써주세요]","멘토님이 [진도|일정|진도랑 일정]까지 [챙겨주셔서|체크해주셔서] [든든해요|좋아요]"]},
+  {id:"grow",label:"실력이 늘어가고 있음",s:["[실력이 늘어가는 게|조금씩 느는 게] [느껴져요|보여요]","처음이랑 비교하면 [실력이 많이 늘었어요|확실히 달라졌어요]"]},
+  {id:"pf",label:"포트폴리오 관리",s:["포트폴리오 [방향도|일정도|구성도] 같이 [잡아주세요|봐주세요|챙겨주세요]","포트폴리오를 [어떻게 채울지|뭘로 채울지] 같이 [고민해주세요|봐주세요]"]},
+  {id:"study",label:"자습실이 있음",s:["자습실이 있어서 [수업 끝나고|수업 없는 날에도] [더 하다 가요|작업하고 가요|복습하기 좋아요]","자습실 쓸 수 있는 게 [은근 커요|생각보다 좋아요]"]},
+  {id:"event",label:"공모전·설명회 안내",s:["공모전[이나 설명회|이나 행사] [있을 때마다 알려주세요|소식을 잘 챙겨주세요]","공모전 정보 같은 걸 [수시로|그때그때] 알려주셔서 [좋아요|도움 돼요]"]},
+  {id:"mood",label:"수업 분위기가 좋음",s:["수업 분위기가 [좋아요|편해요|좋아서 다니기 즐거워요]","[같이 듣는 사람들이랑|수업] 분위기가 [좋아서|편해서] [질문하기 좋아요|오래 다닐 수 있을 것 같아요]"]}
 ];
 const ACCESS = [
   {id:"station",label:"신논현역·강남역에서 가까움"},
@@ -231,14 +254,29 @@ const ACCESS = [
   {id:"we-am",label:"오전 (10:00 ~)",day:"주말",slot:"오전"},
   {id:"we-pm",label:"오후 (13:00 ~)",day:"주말",slot:"오후"}
 ];
+const T_STATION=["[신논현역에서|신논현역 7번 출구에서] [몇 분 안 걸려서|금방이라|가까워서] [다니기|오가기] {E}.","[신논현역이나|신논현역이랑] 강남역에서 걸어[오기|다니기] {E}.","강남역에서도 걸어올 만하고 신논현역은 더 가까워서 {E}.","신논현역 [바로 근처라|코앞이라] [오가기|다니기] {E}."];
+const T_BUS=["[학원 |]바로 앞에 버스정류장이 있어서 {E}.","버스 [타고 와도 정류장이 바로 앞이라|내리면 바로 학원이라] {E}."];
+const T_BOTH=["신논현역에서 가깝고 [바로 앞에 버스정류장도 있어서|버스도 바로 앞에 서서] [다니기 |오가기 |]{E}.","지하철은 신논현역, 버스는 정류장이 [학원 |]바로 앞이라 {E}.","[강남역이나 신논현역|신논현역이나 강남역]에서 걸어와도 되고 버스도 바로 앞에서 내려서 {E}."];
+const E_STUDY=["편해요","좋아요","진짜 편해요","편하더라고요","좋더라고요"], E_NEW=["편할 것 같아요","좋을 것 같아요","편해 보여요"];
+const T_TIME_STUDY=["{T} 수업이 있어서 [시간 맞추기|일정 짜기] [좋아요|편해요].","저는 {T}에 [듣는데|다니는데] [시간대가 잘 맞아요|딱 좋아요].","{T}[에도|에] 수업이 있어서 [다행이에요|좋아요]."];
+const T_TIME_NEW=["{T} 수업이 있어서 [시간 맞추기|일정 짜기] [좋을 것 같아요|괜찮을 것 같아요].","{T}에 [들을 수 있어서|수업이 있어서] [다행이에요|좋아요].","{T}[ 반으로|에] [들을 예정이에요|다니려고요]."];
+const T_EVE="[낮에 할 일 끝내고|하루 일정 끝내고] 평일 저녁에 [올 수 있어서|들을 수 있어서] [좋아요|딱이에요].";
+const T_OPEN_NEW="[오늘 |]상담 [받고 왔어요|다녀왔어요].";
+const T_OPEN_STUDY="[지금 |]수강 중인 [학생이에요|사람이에요].";
+const T_GOAL_END="[등록했어요|등록하게 됐어요|바로 등록했어요|등록까지 했어요|결국 등록했어요|고민 끝에 등록했어요].";
+const T_DONE_PRE="[지금은 |벌써 |그새 |지금까지 |어느새 |]";
+const T_DONE_END="[까지 해봤어요|까지 했어요|도 해봤어요|까지 해본 상태예요|까지 진행했어요|까지 배웠어요].";
+const T_CONN="[그리고 |또 |무엇보다 |거기다 |]";
 
-const st = {subj:"",state:"",period:"",q1:"",q2:[],q3:[],q4:[],seed:0};
+const st = {subj:"",state:"",period:"",q1:"",q2:[],q3:[],q4:[],seed:Math.floor(Math.random()*1e9)};
 try{ const h=location.hash.slice(1); if(SUBJECTS.some(s=>s.id===h)) st.subj=h; }catch(e){}
 
 const $=id=>document.getElementById(id);
 const subj=()=>SUBJECTS.find(s=>s.id===st.subj);
 function hasBatchim(word,qa){ if(qa) return false; const c=word.charCodeAt(word.length-1); if(c<0xAC00||c>0xD7A3) return false; return (c-0xAC00)%28!==0; }
-const eun=(w,q)=>w+(hasBatchim(w,q)?"은":"는"), eul=(w,q)=>w+(hasBatchim(w,q)?"을":"를");
+const eun=(w,q)=>w+(hasBatchim(w,q)?"은":"는"), eul=(w,q)=>w+(hasBatchim(w,q)?"을":"를"), rang=(w,q)=>w+(hasBatchim(w,q)?"이랑":"랑");
+function fill(t,S){ return t.replace(/\{N(은|을|랑)?\}/g,(m,p)=>p==="은"?eun(S.name,S.qa):p==="을"?eul(S.name,S.qa):p==="랑"?rang(S.name,S.qa):S.name).replace(/\{fb\}/g,S.fb); }
+function rng(seed){ let a=seed>>>0; return ()=>{ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
 
 function chip(label,pressed,onClick,{big=false,disabled=false}={}){
   const b=document.createElement("button"); b.type="button"; b.className="chip"+(big?" big":"");
@@ -271,45 +309,54 @@ function renderChips(){
 }
 function toggle(arr,v){ const i=arr.indexOf(v); if(i>=0) arr.splice(i,1); else if(arr.length<3) arr.push(v); }
 
-function joinDone(items){ return items.join(", "); }
-function joinGoals(stems){ if(!stems.length) return ""; return stems.map(x=>x+"고").join(" ")+" 싶어서"; }
+function listKo(x){ if(x.length===1) return x[0]; if(x.length===2) return rang(x[0])+" "+x[1]; return x.slice(0,-1).join(", ")+", "+x[x.length-1]; }
+function fixDot(s){ return s.replace(/채색·명암/g,"채색이랑 명암"); }
 
+function X(t,R){ let p; do{ p=t; t=t.replace(/\[([^\[\]]*)\]/g,(m,i)=>{ const o=i.split("|"); return o[Math.floor(R()*o.length)]; }); }while(t!==p); return t; }
 function build(){
   if(missing().length) return "";
-  const S=subj(), q=S.qa, study=st.state==="study", k=st.seed;
-  const P=PERIODS.find(p=>p.id===st.period);
-  const parts=[];
+  const S=subj(), study=st.state==="study", R=rng(st.seed);
+  const pick=a=>a[Math.floor(R()*a.length)], x=t=>X(fill(t,S),R);
+  const L=LEVELS.find(l=>l.id===st.q1), P=PERIODS.find(p=>p.id===st.period);
+  const head=[], mid=[];
+  if(R()<0.25) head.push(x(study?T_OPEN_STUDY:T_OPEN_NEW));
   if(!study){
-    const goals=joinGoals(st.q2.map(i=>S.goal[i]));
-    const tail = goals? goals+" 등록했어요." : (st.q1==="self"? "바로 등록했어요." : "상담받고 등록했어요.");
-    const A={zero:eun(S.name,q)+" 완전 처음이라 고민했는데, ", self:eul(S.name,q)+" 독학하다가 막혀서 상담을 받았고, ", exp:S.name+" 경험이 조금 있는 상태에서 "};
-    const B={zero:"상담받기 전엔 "+eul(S.name,q)+" 완전 처음 해보는 상태였어요. ", self:"혼자 "+eul(S.name,q)+" 하다가 막혀서 상담을 받았어요. ", exp:S.name+" 경험은 조금 있었어요. "};
-    parts.push((k%2? B[st.q1] : A[st.q1]) + (k%2 && goals? goals.replace(/ 싶어서$/," 싶어서")+" 등록했어요." : tail));
+    let stems=st.q2.map(i=>S.goal[i]);
+    const prep=stems.map(z=>z.match(/^(.*?)[을를] 준비하$/)).filter(Boolean).map(m=>m[1]);
+    if(prep.length>1){ stems=stems.filter(z=>!/[을를] 준비하$/.test(z)); stems.unshift(eul(listKo(prep))+" 준비하"); }
+    const g=stems.join("고 ");
+    const form=R();
+    if(form<0.35) head.push(x(pick(L.s)), g+x("[고 싶어서|려고] ")+x(T_GOAL_END));
+    else if(form<0.75) head.push(x(pick(L.c))+g+x("[고 싶어서|려고] ")+x(T_GOAL_END));
+    else head.push(x(pick(L.s)), x("[앞으로 |여기서 |]")+g+x("[고 싶어요|려고 해요]."), x("[그래서 |]바로 등록했어요."));
   } else {
-    const done = st.q2.length? joinDone(st.q2.map(i=>S.done[i]))+"까지 해봤어요." : "꾸준히 배우고 있어요.";
-    const now = P? P.now+" 지금은 " : "지금은 ";
-    const A={zero:eul(S.name,q)+" 완전 처음 배워서 걱정했는데, ", self:eul(S.name,q)+" 독학하다 막혀서 등록했는데, ", exp:S.name+" 경험이 조금 있는 상태로 시작했고, "};
-    if(k%2 && P){
-      const B={zero:P.ago+" "+eun(S.name,q)+" 완전 처음이었어요. ", self:P.ago+" "+eul(S.name,q)+" 혼자 하다 막혀 있었어요. ", exp:P.ago+" "+S.name+" 경험이 조금 있는 정도였어요. "};
-      parts.push(B[st.q1]+"지금은 "+done);
-    } else parts.push(A[st.q1]+now+done);
+    const items=st.q2.map(i=>fixDot(S.done[i]));
+    const done=x(T_DONE_PRE)+listKo(items)+x(T_DONE_END);
+    const lv=x(pick(L.s)), per=x(pick(P.s));
+    if(R()<0.5) head.push(lv, per, done); else head.push(per, lv.replace(/^(솔직히|사실|원래) /,"처음엔 "), done);
   }
-  const goods= study?GOOD_STUDY:GOOD_NEW;
-  let plain=goods.filter(g=>st.q3.includes(g.id));
-  if(st.q3.includes("job")&&st.q3.includes("exam")) plain=plain.filter(g=>g.id!=="exam").map(g=>g.id==="job"?{s:["취업·입시 방향까지 안내받았어요","취업이나 입시 방향까지 같이 안내해주셨어요"]}:g);
-  const order= k%3===2? plain.slice().reverse(): plain;
-  const conn=["특히 ","그리고 ",""];
-  order.forEach((g,i)=>{ let s=g.s[k%2].replace("{fb}",S.fb); if(i===0 && order.length>1 && k%3===1) s="특히 "+s; else if(i>0 && k%2===0) s=conn[1]+s; parts.push(s+"."); });
-  const stn=st.q4.includes("station"), bus=st.q4.includes("bus");
-  const end= study? "다니기 편해요." : "다니기 편할 것 같아요.";
-  if(stn&&bus) parts.push("신논현역·강남역에서 가깝고 버스정류장도 바로 앞이라 "+end);
-  else if(stn) parts.push("신논현역·강남역에서 가까워서 "+end);
-  else if(bus) parts.push("버스정류장이 바로 앞이라 "+end);
+  const goods=(study?GOOD_STUDY:GOOD_NEW).filter(g=>st.q3.includes(g.id));
+  const block=goods.map((g,i)=>{ let s=x(pick(g.s)); if(i>0) s=x(T_CONN)+s; else if(goods.length>1&&R()<0.3) s="특히 "+s; return s+"."; });
+  if(block.length) mid.push(block.join(" "));
+  const E=study?E_STUDY:E_NEW, stn=st.q4.includes("station"), bus=st.q4.includes("bus");
+  const acc= stn&&bus? T_BOTH : stn? T_STATION : bus? T_BUS : null;
+  if(acc) mid.push(x(pick(acc)).replace("{E}",pick(E)));
   const slots=ACCESS.filter(a=>a.day&&st.q4.includes(a.id));
-  const groups=["평일","주말"].map(d=>{ const s=slots.filter(a=>a.day===d).map(a=>a.slot); return s.length? d+" "+s.join("·") : ""; }).filter(Boolean);
-  if(groups.length) parts.push(groups.join(", ")+" 수업이 있어서 "+(study? "시간 맞추기 좋아요." : "시간 맞추기 좋을 것 같아요."));
-  const ex=$("extra").value.trim(); if(ex) parts.push(/[.!?~요다]$/.test(ex)? ex : ex+".");
-  return parts.join(" ");
+  const groups=["평일","주말"].map(d=>{ const s=slots.filter(a=>a.day===d).map(a=>a.slot); return s.length? d+" "+(s.length>1? s.slice(0,-1).map(z=>rang(z)).join(" ")+" "+s[s.length-1] : s[0]) : ""; }).filter(Boolean);
+  if(groups.length){ const onlyEve= study && slots.length===1 && slots[0].id==="wd-ev";
+    mid.push(onlyEve&&R()<0.4? x(T_EVE) : x(pick(study?T_TIME_STUDY:T_TIME_NEW)).replace("{T}",groups.join(", "))); }
+  for(let i=mid.length-1;i>0;i--){ const j=Math.floor(R()*(i+1)); [mid[i],mid[j]]=[mid[j],mid[i]]; }
+  let sents=[...head,...mid];
+  const tone=R();
+  if(tone<0.4){ const n=1+Math.floor(R()*2); for(let k=0;k<n;k++){ const i=Math.floor(R()*sents.length); sents[i]=sents[i].replace(/요\.$/,"요!"); } }
+  else if(tone<0.55){ const i=Math.floor(R()*sents.length); sents[i]=sents[i].replace(/요\.$/,"요 ㅎㅎ"); }
+  else if(tone<0.65){ const i=Math.floor(R()*sents.length); sents[i]=sents[i].replace(/요\.$/,"요~"); }
+  const ex=$("extra").value.trim();
+  const tail= ex? (/[.!?~요다ㅎㅋ]$/.test(ex)? ex : ex+".") : "";
+  const cut= R()<0.5? head.length : -1;
+  let text= cut>0&&mid.length? sents.slice(0,cut).join(" ")+"\n"+sents.slice(cut).join(" ") : sents.join(" ");
+  if(tail) text+= (R()<0.5? "\n" : " ")+tail;
+  return text;
 }
 
 function missing(){
@@ -346,7 +393,8 @@ function update(){
   lastAuto = txt;
 }
 $("extra").addEventListener("input",update);
-$("shuffle").onclick=()=>{ st.seed=(st.seed+1)%6; $("out").value=""; update(); };
+const seen=new Set();
+$("shuffle").onclick=()=>{ seen.add(build()); let n=0; do{ st.seed=Math.floor(Math.random()*1e9); n++; }while(seen.has(build())&&n<50); $("out").value=""; update(); };
 function copyText(t){
   const ta=document.createElement("textarea");
   ta.value=t; ta.setAttribute("readonly","");
