@@ -219,8 +219,8 @@ const PERIODS = [
 ];
 const PERIODS_NEW = [
   {id:"n3",label:"3개월 이하",c:["[우선 |일단 |]3개월 이내로","[처음엔 |우선 |]짧게 3개월 안쪽으로","[일단 |]3개월만 먼저","3개월 이내로 짧게"]},
-  {id:"n6",label:"3 ~ 6개월",c:["[우선 |일단 |]3~6개월 정도로","[넉넉하게 |]6개월 안쪽으로","반년 정도로","[우선 |]반년 안쪽으로"]},
-  {id:"n12",label:"6개월 이상",c:["6개월 넘게 [길게 보고|제대로]","[아예 |]6개월 이상으로","[길게 보고 |]6개월 넘는 과정으로","반년 넘게 [길게 |]잡고"]}
+  {id:"n6",label:"3 ~ 6개월",c:["[우선 |일단 |]3~6개월 정도로","[넉넉하게 |]6개월 안쪽으로","6개월 정도로","[우선 |]6개월 안으로"]},
+  {id:"n12",label:"6개월 이상",c:["6개월 넘게 [길게 보고|제대로]","[아예 |]6개월 이상으로","[길게 보고 |]6개월 넘는 과정으로","6개월 넘게 [길게 |]잡고"]}
 ];
 const LEVELS = [
   {id:"zero",label:"완전 처음",
@@ -421,7 +421,10 @@ function build(){
   const groups=["평일","주말"].map(d=>{ const s=slots.filter(a=>a.day===d).map(a=>a.slot); return s.length? d+" "+(s.length>1? s.slice(0,-1).map(z=>rang(z)).join(" ")+" "+s[s.length-1] : s[0]) : ""; }).filter(Boolean);
   if(groups.length){ const onlyEve= study && slots.length===1 && slots[0].id==="wd-ev";
     var timeS= onlyEve&&R()<0.4? x(T_EVE) : x(pick(study?T_TIME_STUDY:T_TIME_NEW)).replace("{T로}",(()=>{ const T=groups.join(", "), j=jong(T.slice(-1)); return T+(j===0||j===8?"로":"으로"); })()).replace("{T}",groups.join(", ")); }
-  let lt=[locS,typeof timeS==="string"?timeS:null].filter(Boolean);
+  let locS2=locS;
+  if(locS2 && typeof timeS==="string"){ for(const e of E){ if(locS2.includes(e) && timeS.includes(e.replace(/^(진짜|정말) /,""))){ const alt=E.filter(z=>!timeS.includes(z)&&!timeS.includes(z.split(" ").pop())); if(alt.length) locS2=locS2.replace(e,pick(alt)); break; } }
+    if(/것 같아요/.test(locS2)&&/것 같아요/.test(timeS)) locS2=locS2.replace(/(괜찮을|좋을|편할) 것 같아요/,pick(["편해 보여요","좋아 보여요"])); }
+  let lt=[locS2,typeof timeS==="string"?timeS:null].filter(Boolean);
   if(lt.length===2&&R()<0.5) lt.reverse();
   let ltText=null;
   if(lt.length){
@@ -432,10 +435,10 @@ function build(){
   const order= qFirst? [qBlock,ltText] : [ltText,qBlock];
   order.forEach((t,i)=>{ if(!t) return;
     if(i===1 && order[0]){
-      if(t===ltText && locS && t.startsWith(locS.slice(0,4)) && R()<0.5) t=(/^학원|^[^.]*에서도/.test(t)?"":"위치도 ")+t;
+      if(t===ltText && locS2 && t.startsWith(locS2.slice(0,4)) && R()<0.5) t=(/^학원|^[^.]*에서도/.test(t)?"":"위치도 ")+t;
       else if(t===ltText && R()<0.4 && !/그리고/.test(order[0])) t="그리고 "+t;
       else if(t===qBlock && R()<0.35 && !/^(특히|다녀|직접|수업은|상담)/.test(t) && !/그리고|무엇보다/.test(t) && !/그리고/.test(order[0])) t=pick(["그리고 ","무엇보다 "])+t;
-    } else if(i===0 && t===ltText && locS && t.startsWith(locS.slice(0,4)) && !/^[^.]*에서도/.test(t) && R()<0.4) t="위치는 "+t;
+    } else if(i===0 && t===ltText && locS2 && t.startsWith(locS2.slice(0,4)) && !/^[^.]*에서도/.test(t) && R()<0.4) t="위치는 "+t;
     mid.push(t); });
   const worried=["zero","major","self","hobby","career"].includes(st.q1);
   if(worried){
