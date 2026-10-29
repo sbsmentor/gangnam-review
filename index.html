@@ -312,6 +312,15 @@ function toggle(arr,v){ const i=arr.indexOf(v); if(i>=0) arr.splice(i,1); else i
 function listKo(x){ if(x.length===1) return x[0]; if(x.length===2) return rang(x[0])+" "+x[1]; return x.slice(0,-1).join(", ")+", "+x[x.length-1]; }
 function fixDot(s){ return s.replace(/채색·명암/g,"채색이랑 명암"); }
 
+function jong(ch){ const c=ch.charCodeAt(0); return (c<0xAC00||c>0xD7A3)? -1 : (c-0xAC00)%28; }
+function formalOne(t){
+  const R1=[[/해요$/,"합니다"],[/돼요$/,"됩니다"],[/(이에요|예요)$/,"입니다"],[/주세요$/,"주십니다"],[/커요$/,"큽니다"],[/가요$/,"갑니다"],[/보여요$/,"보입니다"],[/려고요$/,"려고 합니다"]];
+  for(const [re,to] of R1) if(re.test(t)) return t.replace(re,to);
+  const m=t.match(/([가-힣])(아|어)요$/);
+  if(m){ const j=jong(m[1]); if(j>0 && j!==8 && m[1]!=="들") return t.slice(0,-m[0].length)+m[1]+"습니다"; }
+  return t;
+}
+function formal(t){ return t.replace(/요([.!~]?)$/, (mm,p)=>"요"+p).replace(/^(.*요)([.!~]?)$/,(mm,body,p)=>{ const f=formalOne(body); return f+(p||""); }); }
 function X(t,R){ let p; do{ p=t; t=t.replace(/\[([^\[\]]*)\]/g,(m,i)=>{ const o=i.split("|"); return o[Math.floor(R()*o.length)]; }); }while(t!==p); return t; }
 function build(){
   if(missing().length) return "";
@@ -336,7 +345,8 @@ function build(){
     if(R()<0.5) head.push(lv, per, done); else head.push(per, lv.replace(/^(솔직히|사실|원래) /,"처음엔 "), done);
   }
   const goods=(study?GOOD_STUDY:GOOD_NEW).filter(g=>st.q3.includes(g.id));
-  const block=goods.map((g,i)=>{ let s=x(pick(g.s)); if(i>0) s=x(T_CONN)+s; else if(goods.length>1&&R()<0.3) s="특히 "+s; return s+"."; });
+  const conns=["그리고 ","또 ","무엇보다 ","거기다 ","",""].sort(()=>R()-0.5);
+  const block=goods.map((g,i)=>{ let s=x(pick(g.s)); if(i>0) s=conns[i-1]+s; else if(goods.length>1&&R()<0.3) s="특히 "+s; return s+"."; });
   if(block.length) mid.push(block.join(" "));
   const E=study?E_STUDY:E_NEW, stn=st.q4.includes("station"), bus=st.q4.includes("bus");
   const acc= stn&&bus? T_BOTH : stn? T_STATION : bus? T_BUS : null;
@@ -347,10 +357,11 @@ function build(){
     mid.push(onlyEve&&R()<0.4? x(T_EVE) : x(pick(study?T_TIME_STUDY:T_TIME_NEW)).replace("{T}",groups.join(", "))); }
   for(let i=mid.length-1;i>0;i--){ const j=Math.floor(R()*(i+1)); [mid[i],mid[j]]=[mid[j],mid[i]]; }
   let sents=[...head,...mid];
-  const tone=R();
-  if(tone<0.4){ const n=1+Math.floor(R()*2); for(let k=0;k<n;k++){ const i=Math.floor(R()*sents.length); sents[i]=sents[i].replace(/요\.$/,"요!"); } }
-  else if(tone<0.55){ const i=Math.floor(R()*sents.length); sents[i]=sents[i].replace(/요\.$/,"요 ㅎㅎ"); }
-  else if(tone<0.65){ const i=Math.floor(R()*sents.length); sents[i]=sents[i].replace(/요\.$/,"요~"); }
+  const reg=R(); // 0~0.55 해요체, ~0.85 합니다체, 나머지 섞어서
+  if(reg>=0.55){ const all=reg<0.85; sents=sents.map(t=> t.split(/(?<=[.!~])\s+/).map(u=> all||R()<0.5? formal(u) : u).join(" ")); }
+  const decoPool= reg>=0.55&&reg<0.85? ["!","!"," ^^"," :)","!!"] : ["!","~"," ㅎㅎ"," ^^"," :)","!!","~~"];
+  const nd=Math.floor(R()*3);
+  for(let k=0;k<nd;k++){ const i=Math.floor(R()*sents.length); sents[i]=sents[i].replace(/([요다])\.$/,"$1"+pick(decoPool)); }
   const ex=$("extra").value.trim();
   const tail= ex? (/[.!?~요다ㅎㅋ]$/.test(ex)? ex : ex+".") : "";
   const cut= R()<0.5? head.length : -1;
